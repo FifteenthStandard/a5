@@ -1,0 +1,44 @@
+:root {
+  --line-color: #c1c3bf;
+  --line-height: 6mm;
+  --line-thickness: 0.5mm;
+}
+
+.lined {
+  padding: 9mm 6mm 9mm 14mm;
+
+  font-size: 5mm;
+  line-height: 6mm;
+
+  &.obverse {
+    transform: scaleX(-1);
+  }
+
+  &>section {
+    height: calc(100% + var(--line-thickness));
+    margin-top: calc(-0.5 * var(--line-thickness));
+    border-bottom: var(--line-thickness) solid var(--line-color);
+    background-image: repeating-linear-gradient(
+      180deg,
+      var(--line-color) 0mm,
+      var(--line-color) var(--line-thickness),
+      transparent var(--line-thickness),
+      transparent var(--line-height)
+    );
+
+    &>textarea {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: transparent;
+      outline: none;
+      overflow: hidden;
+      resize: none;
+
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: inherit;
+    }
+  }
+}

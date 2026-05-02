@@ -1,0 +1,43 @@
+.binder {
+  height: var(--binder-height);
+  background-color: var(--binder-color);
+  border: var(--border-thickness) solid var(--binder-border-color);
+  border-radius: var(--border-thickness);
+  box-shadow: 0mm 3mm 5mm rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  display: flex;
+
+  &.open {
+    &>.left {
+      position: relative;
+      width: var(--binder-width);
+
+      &>* {
+        position: absolute;
+        right: -10mm;
+        top: 10mm;
+      }
+    }
+
+    &>.spine {
+      border-inline: 2mm ridge var(--binder-border-color);
+      box-sizing: border-box;
+      width: var(--binder-spine-width);
+    }
+
+    &>.right {
+      position: relative;
+      width: var(--binder-width);
+
+      &>* {
+        position: absolute;
+        left: -10mm;
+        top: 10mm;
+      }
+    }
+  }
+
+  &.closed {
+    width: var(--binder-width);
+  }
+}

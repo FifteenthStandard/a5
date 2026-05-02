@@ -1,0 +1,33 @@
+.app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.paper {
+  background-color: var(--paper-color);
+  border: var(--border-thickness) solid var(--paper-border-color);
+  border-radius: var(--border-thickness);
+  box-shadow: 2mm 1mm 3mm rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+
+  color: var(--ink-color);
+  font-family: Consolas, 'Courier New', monospace;
+}
+
+.a5 {
+  width: var(--a5-width);
+  height: var(--a5-height);
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 5.5mm;
+    top: 5mm;
+    width: 3mm;
+    height: 200mm;
+    background-image: radial-gradient(circle 1.5mm at center, black 100%, transparent 100%);
+    background-size: 3mm 10mm;
+  }
+}

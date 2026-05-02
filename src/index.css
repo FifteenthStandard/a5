@@ -1,0 +1,24 @@
+:root {
+  --a5-height: 210mm;
+  --a5-width: 148mm;
+
+  --binder-height: 230mm;
+  --binder-width: 158mm;
+  --binder-spine-width: 25mm;
+
+  --border-thickness: 0.5mm;
+
+  --binder-color: #306030;
+  --binder-border-color: #102010;
+
+  --paper-color: #f0f0f0;
+  --paper-border-color: #c0c0c0;
+
+  --ink-color: #1a1a1b;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
