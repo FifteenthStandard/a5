@@ -1,4 +1,4 @@
-import type { Index, Page } from './Types';
+import type { Index, Notes, Page } from './Types';
 
 export type Event = {
   id: string;
@@ -6,8 +6,14 @@ export type Event = {
 }
 
 export type NotesEvent =
+  | StateInitializedEvent
   | PageUpdatedEvent
   | IndexUpdatedEvent;
+
+export type StateInitializedEvent = Event & {
+  type: 'stateInitialized';
+  notes: Notes;
+};
 
 export type PageUpdatedEvent = Event & {
   type: 'pageUpdated';

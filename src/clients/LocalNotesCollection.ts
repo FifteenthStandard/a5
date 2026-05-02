@@ -1,16 +1,36 @@
-import type { NotesEvent } from "../Events";
-import SubscriberSet from "../SubscriberSet";
-import type { Notes, Page, PageType } from "../Types";
+import { StateStore } from './IndexedDbClient';
+import type { NotesEvent } from '../Events';
+import SubscriberSet from '../SubscriberSet';
+import type { Notes, Page, PageType } from '../Types';
 
 let state: Notes = {
   index: [],
   pages: {},
 };
+
 const subscribers: SubscriberSet<NotesEvent> = new SubscriberSet();
+
+(async function initialize() {
+  const savedState = await StateStore.getState<Notes>('notes');
+  if (savedState) state = savedState;
+    subscribers.notify({
+      id: crypto.randomUUID(),
+      type: 'stateInitialized',
+      notes: state,
+    });
+}());
+
+subscribers.subscribe(async function () {
+  await StateStore.setState('notes', state);
+});
 
 function getSnapshot(): Notes {
   return state;
 }
+
+function subscribe(callback: (event: NotesEvent) => void): () => void {
+  return subscribers.subscribe(callback);
+};
 
 function handleNotesEvent(event: NotesEvent): void {
   switch (event.type) {
@@ -94,7 +114,7 @@ function updatePage(pageId: string, content: string): void {
 
 export const LocalNotesCollection = {
   getSnapshot,
-  subscribe: subscribers.subscribe.bind(subscribers),
+  subscribe,
   handleNotesEvent,
   addNewPageBefore,
   updatePage,
