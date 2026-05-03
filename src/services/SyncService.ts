@@ -1,9 +1,9 @@
-import { FileSystemClient } from './FileSystemClient';
-import { LocalNotesCollection } from './LocalNotesCollection';
+import { BinderService } from './BinderService';
+import { FileSystemService } from './FileSystemService';
+import { IndexedDbService } from './IndexedDbService';
 import type { NotesEvent } from '../Events';
-import type { Index, PageType } from '../Types';
 import SubscriberSet from '../SubscriberSet';
-import { StateStore } from './IndexedDbClient';
+import type { Index, PageType } from '../Types';
 
 type SyncStatus =
   | 'synced'
@@ -48,12 +48,12 @@ const syncToLocalSubscribers: SubscriberSet<NotesEvent> = new SubscriberSet();
 const syncToRemoteSubscribers: SubscriberSet<NotesEvent> = new SubscriberSet();
 
 (async function initialize() {
-  const savedState = await StateStore.getState<UnifiedNotes>('SyncClient');
+  const savedState = await IndexedDbService.getState<UnifiedNotes>('SyncClient');
   if (savedState) state = savedState;
 }());
 
 subscribers.subscribe(async function () {
-  await StateStore.setState('SyncClient', state);
+  await IndexedDbService.setState('SyncClient', state);
 });
 
 function handleLocalNoteEvent(event: NotesEvent): void {
@@ -180,8 +180,8 @@ function handleRemoteNoteEvent(event: NotesEvent): void {
   }
 };
 
-LocalNotesCollection.subscribe(handleLocalNoteEvent);
-FileSystemClient.subscribe(handleRemoteNoteEvent);
+BinderService.subscribe(handleLocalNoteEvent);
+FileSystemService.subscribe(handleRemoteNoteEvent);
 
-syncToLocalSubscribers.subscribe(LocalNotesCollection.handleNotesEvent);
-syncToRemoteSubscribers.subscribe(FileSystemClient.handleNotesEvent);
+syncToLocalSubscribers.subscribe(BinderService.handleNotesEvent);
+syncToRemoteSubscribers.subscribe(FileSystemService.handleNotesEvent);

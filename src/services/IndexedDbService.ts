@@ -14,7 +14,7 @@ let dbPromise: Promise<IDBDatabase> = new Promise(function (resolve, reject) {
   }
 });
 
-export const StateStore = {
+export const IndexedDbService = {
   async getState<T>(key: string): Promise<T | null> {
     const db = await dbPromise;
     return new Promise(function (resolve, reject) {

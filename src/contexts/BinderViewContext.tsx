@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo, useState, useSyncExternalStore } from 'react';
-import { LocalNotesCollection } from '../clients/LocalNotesCollection';
+import { BinderService } from '../services/BinderService';
 import type { PageType } from '../Types';
 import type { BinderView } from '../Interfaces';
 
@@ -13,7 +13,7 @@ export const BinderViewContext = createContext<BinderView>({} as BinderView);
 
 export function BinderViewProvider({ children }: { children: React.ReactNode }): React.ReactElement {
   const [ state, setState ] = useState<BinderState>({ binderOpen: false, ringsOpen: false, pageId: null });
-  const notes = useSyncExternalStore(LocalNotesCollection.subscribe, LocalNotesCollection.getSnapshot);
+  const notes = useSyncExternalStore(BinderService.subscribe, BinderService.getSnapshot);
 
   const binderView = useMemo(function () {
     const pageIndex = !state.binderOpen ?
@@ -42,13 +42,13 @@ export function BinderViewProvider({ children }: { children: React.ReactNode }):
 
     function addNewPage(type: PageType): void {
       if (!state.ringsOpen) return;
-      const pageId = LocalNotesCollection.addNewPageBefore(state.pageId, type);
+      const pageId = BinderService.addNewPageBefore(state.pageId, type);
       setState(prev => ({ ...prev, pageId }));
     };
 
     function updatePage(content: string): void {
       if (state.ringsOpen || !state.pageId) return;
-      LocalNotesCollection.updatePage(state.pageId, content);
+      BinderService.updatePage(state.pageId, content);
     };
 
     return {

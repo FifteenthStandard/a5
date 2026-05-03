@@ -1,7 +1,7 @@
 import type { NotesEvent } from '../Events';
 import SubscriberSet from '../SubscriberSet';
 import type { Notes, Page, PageType } from '../Types';
-import { StateStore } from './IndexedDbClient';
+import { IndexedDbService } from './IndexedDbService';
 
 type State = {
   handle: FileSystemDirectoryHandle | null;
@@ -17,7 +17,7 @@ let state: State = {
 };
 
 (async function initialize() {
-  const savedState = await StateStore.getState<State>('FileSystemClient');
+  const savedState = await IndexedDbService.getState<State>('FileSystemClient');
   if (savedState) state.handle = savedState.handle;
 }());
 
@@ -29,13 +29,13 @@ window.addEventListener('binderopen', async function () {
     mode: 'readwrite' as FileSystemPermissionMode,
   };
   state.handle = await window.showDirectoryPicker(options);
-  await StateStore.setState('FileSystemClient', state);
+  await IndexedDbService.setState('FileSystemClient', state);
 });
 
 const subscribers = new SubscriberSet<NotesEvent>();
 
 subscribers.subscribe(async function () {
-  await StateStore.setState('FileSystemClient', state);
+  await IndexedDbService.setState('FileSystemClient', state);
 });
 
 (async function poll() {
@@ -131,7 +131,7 @@ function getSnapshot(): Notes {
   return state.notes;
 };
 
-export const FileSystemClient = {
+export const FileSystemService = {
   getSnapshot,
   subscribe,
   handleNotesEvent,
