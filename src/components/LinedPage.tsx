@@ -18,36 +18,61 @@ export default function LinedPage(props: LinedPageProps): React.ReactElement {
   return props.blank
     ? <BlankPage {...props} />
     : <EditorPage {...props} />;
+}
 
-  function BlankPage({ obverse }: BlankPageProps): React.ReactElement {
-    return (
-      <article className={`paper a5 lined ${obverse ? ' obverse' : ''}`}>
-        <section />
-      </article>
-    );
+function BlankPage({ obverse }: BlankPageProps): React.ReactElement {
+  return (
+    <article className={`paper a5 lined ${obverse ? ' obverse' : ''}`}>
+      <section />
+    </article>
+  );
+};
+
+function EditorPage({ page, updatePage }: EditorPageProps): React.ReactElement {
+  const [ text, setText ] = useState('');
+
+  function save(): void {
+    const existingContent = page.content.trimEnd();
+    const addedContent = text.trimEnd();
+
+    if (addedContent === '') return;
+
+    const newContent = existingContent ? `${existingContent}\n${addedContent}` : addedContent;
+
+    updatePage(newContent);
+    setText('');
+  }
+
+  function handleBlur(): void {
+    save();
+    setText('');
+  }
+
+  function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>): void {
+    setText(event.target.value);
+  }
+
+  function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>): void {
+    if (event.key !== 'Enter') return;
+    if (text.trim() === '') return;
+
+    event.preventDefault();
+    save();
   };
 
-  function EditorPage({ page, updatePage }: EditorPageProps): React.ReactElement {
-    const [ content, setContent ] = useState(page.content);
-    
-    function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>): void {
-      setContent(e.target.value);
-    }
-
-    function handleBlur(): void {
-      updatePage(content);
-    }
-
-    return (
-      <article className="paper a5 lined">
-        <section>
-          <textarea
-            value={content}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            />
-        </section>
-      </article>
-    );
-  };
+  return (
+    <article className="paper a5 lined">
+      <section>
+        <pre className="existing-content">{page.content}</pre>
+        <textarea
+          key='editor'
+          autoFocus
+          value={text}
+          onBlur={handleBlur}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+        />
+      </section>
+    </article>
+  );
 };
