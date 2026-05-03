@@ -14,7 +14,9 @@
   --paper-color: #f0f0f0;
   --paper-border-color: #c0c0c0;
 
-  --ink-color: #1a1a1b;
+  --pen-color: #1a1a1b;
+  --pen-font: 'Monaco', monospace;
+  --pen-weight: 500;
 }
 
 html, body, #root {
@@ -22,3 +24,5 @@ html, body, #root {
   margin: 0;
   padding: 0;
 }
+
+@font-face { font-family: 'Monaco'; src: url('./assets/Monaco.woff') format('woff'); }

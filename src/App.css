@@ -12,8 +12,9 @@
   box-shadow: 2mm 1mm 3mm rgba(0, 0, 0, 0.5);
   box-sizing: border-box;
 
-  color: var(--ink-color);
-  font-family: Consolas, 'Courier New', monospace;
+  color: var(--pen-color);
+  font-family: var(--pen-font);
+  font-weight: var(--pen-weight);
 }
 
 .a5 {

@@ -1,0 +1,15 @@
+{
+  "name": "A5",
+  "short_name": "A5",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#306030",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
+}
