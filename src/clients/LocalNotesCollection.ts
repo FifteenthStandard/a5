@@ -11,7 +11,7 @@ let state: Notes = {
 const subscribers: SubscriberSet<NotesEvent> = new SubscriberSet();
 
 (async function initialize() {
-  const savedState = await StateStore.getState<Notes>('notes');
+  const savedState = await StateStore.getState<Notes>('LocalNotesCollection');
   if (savedState) state = savedState;
     subscribers.notify({
       id: crypto.randomUUID(),
@@ -21,7 +21,7 @@ const subscribers: SubscriberSet<NotesEvent> = new SubscriberSet();
 }());
 
 subscribers.subscribe(async function () {
-  await StateStore.setState('notes', state);
+  await StateStore.setState('LocalNotesCollection', state);
 });
 
 function getSnapshot(): Notes {

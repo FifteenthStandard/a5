@@ -1,3 +1,7 @@
+import './clients/FileSystemClient';
+import './clients/LocalNotesCollection';
+import './clients/SyncClient';
+
 import Binder from './components/Binder';
 import { BinderViewProvider } from './contexts/BinderViewContext';
 import './App.css'

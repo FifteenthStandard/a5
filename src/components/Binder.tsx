@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useBinderView } from '../contexts/BinderViewContext';
 import type { Page } from '../Types';
 import './Binder.css';
@@ -14,10 +13,15 @@ export default function Binder(): React.ReactElement {
   );
 
   function ClosedBinder(): React.ReactElement {
+    function handleOpenBinder(): void {
+      window.dispatchEvent(new Event('binderopen'));
+      view.nextPage();
+    };
+
     return (
       <div>
         <div className="buttons">
-          <button onClick={view.nextPage}>Open Binder</button>
+          <button onClick={handleOpenBinder}>Open Binder</button>
         </div>
         <div
           className="binder closed"
