@@ -1,5 +1,3 @@
-import './services/BinderService';
-import './services/FileSystemService';
 import './services/SyncService';
 
 import Binder from './components/Binder';

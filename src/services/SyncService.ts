@@ -43,18 +43,21 @@ let state: UnifiedNotes = {
   pages: {},
 };
 
-const subscribers: SubscriberSet<void> = new SubscriberSet();
+async function setState(newState: Partial<UnifiedNotes>): Promise<void> {
+  state = {
+    ...state,
+    ...newState,
+  };
+  await IndexedDbService.setState('SyncService', state);
+};
+
 const syncToLocalSubscribers: SubscriberSet<NotesEvent> = new SubscriberSet();
 const syncToRemoteSubscribers: SubscriberSet<NotesEvent> = new SubscriberSet();
 
 (async function initialize() {
-  const savedState = await IndexedDbService.getState<UnifiedNotes>('SyncClient');
+  const savedState = await IndexedDbService.getState<UnifiedNotes>('SyncService');
   if (savedState) state = savedState;
 }());
-
-subscribers.subscribe(async function () {
-  await IndexedDbService.setState('SyncClient', state);
-});
 
 function handleLocalNoteEvent(event: NotesEvent): void {
   switch (event.type) {
@@ -81,16 +84,14 @@ function handleLocalNoteEvent(event: NotesEvent): void {
         localModified: event.page.modified,
       };
 
-      state = {
-        ...state,
+      setState({
         pages: {
           ...state.pages,
           [unifiedPage.id]: unifiedPage,
         },
-      };
+      });
 
       if (syncStatus === 'sync-to-remote') syncToRemoteSubscribers.notify(event);
-      subscribers.notify();
 
       break;
     }
@@ -109,9 +110,15 @@ function handleLocalNoteEvent(event: NotesEvent): void {
           localIndex: event.index,
         },
       };
+      setState({
+        index: {
+          ...state.index,
+          syncStatus,
+          localIndex: event.index,
+        },
+      });
 
       if (syncStatus === 'sync-to-remote') syncToRemoteSubscribers.notify(event);
-      subscribers.notify();
 
       break;
     }
@@ -143,16 +150,14 @@ function handleRemoteNoteEvent(event: NotesEvent): void {
         remoteModified: event.page.modified,
       };
 
-      state = {
-        ...state,
+      setState({
         pages: {
           ...state.pages,
           [unifiedPage.id]: unifiedPage,
         },
-      };
+      });
 
       if (syncStatus === 'sync-to-local') syncToLocalSubscribers.notify(event);
-      subscribers.notify();
 
       break;
     }
@@ -163,17 +168,15 @@ function handleRemoteNoteEvent(event: NotesEvent): void {
         : [ 'conflict', 'sync-to-remote' ].includes(state.index.syncStatus)
         ? 'conflict' : 'sync-to-local';
 
-      state = {
-        ...state,
+      setState({
         index: {
           ...state.index,
           syncStatus,
-          localIndex: event.index,
+          remoteIndex: event.index,
         },
-      };
+      });
 
       if (syncStatus === 'sync-to-local') syncToLocalSubscribers.notify(event);
-      subscribers.notify();
 
       break;
     }

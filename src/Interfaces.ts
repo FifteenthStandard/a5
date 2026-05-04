@@ -1,4 +1,4 @@
-import type { Notes, Page, PageType } from './Types';
+import type { Index, Notes, Page, PageType } from './Types';
 import type { NotesEvent } from './Events';
 
 export interface BinderView {
@@ -13,7 +13,15 @@ export interface BinderView {
   updatePage(content: string): void;
 };
 
-export interface NotesCollection {
+export interface NotesClient {
+  savePage(page: Page): Promise<void>;
+  saveIndex(index: Index): Promise<void>;
+  getSnapshot(): Promise<Notes>;
+  poll(): AsyncGenerator<NotesEvent>;
+};
+
+export interface NotesSource {
   getSnapshot(): Notes;
+  handleNotesEvent(event: NotesEvent): Promise<void>;
   subscribe(callback: (event: NotesEvent) => void): () => void;
 };
