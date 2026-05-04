@@ -1,4 +1,4 @@
-import { IndexedDbService } from './IndexedDbService';
+import StateService from './StateService';
 import type { NotesEvent } from '../Events';
 import SubscriberSet from '../SubscriberSet';
 import type { Notes, Page, PageType } from '../Types';
@@ -11,7 +11,7 @@ let state: Notes = {
 const subscribers: SubscriberSet<NotesEvent> = new SubscriberSet();
 
 (async function initialize() {
-  const savedState = await IndexedDbService.getState<Notes>('LocalNotesCollection');
+  const savedState = await StateService.getState<Notes>('LocalNotesCollection');
   if (savedState) state = savedState;
   subscribers.notify({
     id: crypto.randomUUID(),
@@ -21,7 +21,7 @@ const subscribers: SubscriberSet<NotesEvent> = new SubscriberSet();
 }());
 
 subscribers.subscribe(async function () {
-  await IndexedDbService.setState('LocalNotesCollection', state);
+  await StateService.setState('LocalNotesCollection', state);
 });
 
 function getSnapshot(): Notes {

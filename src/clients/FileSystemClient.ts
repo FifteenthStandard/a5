@@ -1,4 +1,4 @@
-import { IndexedDbService } from '../services/IndexedDbService';
+import StateService from '../services/StateService';
 import type { NotesEvent } from "../Events";
 import type { NotesClient } from "../Interfaces";
 import type { Index, Notes, Page, PageType } from "../Types";
@@ -18,11 +18,11 @@ async function setState(newState: Partial<State>): Promise<void> {
     ...state,
     ...newState,
   };
-  await IndexedDbService.setState('FileSystemClient', state);
+  await StateService.setState('FileSystemClient', state);
 };
 
 (async function initialize() {
-  const savedState = await IndexedDbService.getState<State>('FileSystemClient');
+  const savedState = await StateService.getState<State>('FileSystemClient');
   if (savedState) state = savedState;
 }());
 

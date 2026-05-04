@@ -1,4 +1,4 @@
-import { IndexedDbService } from '../services/IndexedDbService';
+import StateService from './StateService';
 import type { NotesEvent } from '../Events';
 import type { NotesClient, NotesSource } from '../Interfaces';
 import SubscriberSet from '../SubscriberSet';
@@ -21,11 +21,11 @@ export default function createExternalPageSource(serviceName: string, client: No
       ...state,
       ...newState,
     };
-    await IndexedDbService.setState(serviceName, state);
+    await StateService.setState(serviceName, state);
   };
 
   (async function initialize() {
-    const savedState = await IndexedDbService.getState<State>(serviceName);
+    const savedState = await StateService.getState<State>(serviceName);
     if (savedState) {
       state = savedState;
     } else {

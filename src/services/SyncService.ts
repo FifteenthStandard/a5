@@ -1,6 +1,6 @@
 import { BinderService } from './BinderService';
 import { FileSystemService } from './FileSystemService';
-import { IndexedDbService } from './IndexedDbService';
+import StateService from './StateService';
 import type { NotesEvent } from '../Events';
 import SubscriberSet from '../SubscriberSet';
 import type { Index, PageType } from '../Types';
@@ -48,14 +48,14 @@ async function setState(newState: Partial<UnifiedNotes>): Promise<void> {
     ...state,
     ...newState,
   };
-  await IndexedDbService.setState('SyncService', state);
+  await StateService.setState('SyncService', state);
 };
 
 const syncToLocalSubscribers: SubscriberSet<NotesEvent> = new SubscriberSet();
 const syncToRemoteSubscribers: SubscriberSet<NotesEvent> = new SubscriberSet();
 
 (async function initialize() {
-  const savedState = await IndexedDbService.getState<UnifiedNotes>('SyncService');
+  const savedState = await StateService.getState<UnifiedNotes>('SyncService');
   if (savedState) state = savedState;
 }());
 
