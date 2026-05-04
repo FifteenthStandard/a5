@@ -13,11 +13,11 @@ const subscribers: SubscriberSet<NotesEvent> = new SubscriberSet();
 (async function initialize() {
   const savedState = await IndexedDbService.getState<Notes>('LocalNotesCollection');
   if (savedState) state = savedState;
-    subscribers.notify({
-      id: crypto.randomUUID(),
-      type: 'stateInitialized',
-      notes: state,
-    });
+  subscribers.notify({
+    id: crypto.randomUUID(),
+    type: 'stateInitialized',
+    notes: state,
+  });
 }());
 
 subscribers.subscribe(async function () {

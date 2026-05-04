@@ -1,9 +1,6 @@
-/// <reference lib="webworker" />
-declare const self: ServiceWorkerGlobalScope;
-
 const CACHE_NAME = 'a5-v1';
 
-self.addEventListener('install', function (event: ExtendableEvent) {
+self.addEventListener('install', function (event) {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => cache.addAll(['/']))
@@ -11,7 +8,7 @@ self.addEventListener('install', function (event: ExtendableEvent) {
   );
 });
 
-self.addEventListener('activate', function (event: ExtendableEvent) {
+self.addEventListener('activate', function (event) {
   event.waitUntil(
     caches.keys()
       .then(keys => Promise.all(
@@ -21,7 +18,7 @@ self.addEventListener('activate', function (event: ExtendableEvent) {
   );
 });
 
-self.addEventListener('fetch', function (event: FetchEvent) {
+self.addEventListener('fetch', function (event) {
   if (event.request.method !== 'GET') return;
 
   event.respondWith(

@@ -18,7 +18,7 @@ let state: State = {
 
 (async function initialize() {
   const savedState = await IndexedDbService.getState<State>('FileSystemClient');
-  if (savedState) state.handle = savedState.handle;
+  if (savedState) state = savedState;
 }());
 
 window.addEventListener('binderopen', async function () {
@@ -28,7 +28,13 @@ window.addEventListener('binderopen', async function () {
     id: 'FileSystemClient',
     mode: 'readwrite' as FileSystemPermissionMode,
   };
-  state.handle = await window.showDirectoryPicker(options);
+  const handle = await window.showDirectoryPicker(options);
+
+  state = {
+    ...state,
+    handle,
+  };
+
   await IndexedDbService.setState('FileSystemClient', state);
 });
 
@@ -105,7 +111,6 @@ subscribers.subscribe(async function () {
 async function handleNotesEvent(event: NotesEvent): Promise<void> {
   switch (event.type) {
     case 'pageUpdated': {
-
       const fileHandle = await state.handle!.getFileHandle(`${event.page.id}.${event.page.type}.txt`, { create: true });
       const writable = await fileHandle.createWritable();
       await writable.write(event.page.content);
