@@ -284,7 +284,6 @@ async function* poll(): AsyncGenerator<NotesEvent> {
   const modifiedFiles = await getModifiedFiles();
 
   for (const file of modifiedFiles) {
-    console.log('Modified file:', file.name);
     if (file.modifiedTime > state.lastModified) {
       await setState({
         lastModified: file.modifiedTime,
@@ -293,7 +292,6 @@ async function* poll(): AsyncGenerator<NotesEvent> {
 
     const note = await getNoteFile(file);
     if (!note) continue;
-    console.log('Parsed note:', note);
 
     switch (note.type) {
       case 'index':
@@ -302,7 +300,6 @@ async function* poll(): AsyncGenerator<NotesEvent> {
           type: 'indexUpdated',
           index: note.value as Index,
         };
-        console.log('Yielded index update event');
         break;
 
       case 'page':
@@ -311,7 +308,6 @@ async function* poll(): AsyncGenerator<NotesEvent> {
           type: 'pageUpdated',
           page: note.value as Page,
         };
-        console.log('Yielded page update event');
         break;
     }
   }
