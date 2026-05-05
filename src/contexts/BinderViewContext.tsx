@@ -25,6 +25,11 @@ export function BinderViewProvider({ children }: { children: React.ReactNode }):
     const page = state.pageId ? notes.pages[state.pageId] : null;
     const leftPage = leftPageId ? notes.pages[leftPageId] : null;
 
+    function closeBinder(): void {
+      if (state.ringsOpen) return;
+      setState(prev => ({ ...prev, binderOpen: false, pageId: null }));
+    };
+
     function previousPage(): void {
       if (state.ringsOpen || !state.binderOpen) return;
       if (pageIndex === 0) return setState(prev => ({ ...prev, binderOpen: false, pageId: null }));
@@ -56,6 +61,7 @@ export function BinderViewProvider({ children }: { children: React.ReactNode }):
       ringsOpen: state.ringsOpen,
       page,
       leftPage,
+      closeBinder,
       previousPage,
       nextPage,
       toggleRings,

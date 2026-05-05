@@ -6,6 +6,7 @@ export interface BinderView {
   ringsOpen: boolean;
   page: Page | null;
   leftPage: Page | null;
+  closeBinder(): void;
   previousPage(): void;
   nextPage(): void;
   toggleRings(): void;

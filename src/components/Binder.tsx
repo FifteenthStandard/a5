@@ -3,6 +3,7 @@ import type { BinderView } from '../Interfaces';
 import type { Page } from '../Types';
 import './Binder.css';
 import LinedPage from './LinedPage';
+import Swipeable from './Swipeable';
 
 export default function Binder(): React.ReactElement {
   const view = useBinderView();
@@ -25,9 +26,11 @@ function ClosedBinder({ view }: { view: BinderView }): React.ReactElement {
       <div className="buttons">
         <button onClick={handleOpenBinder}>Open Binder</button>
       </div>
-      <div
-        className="binder closed"
-      />
+      <Swipeable onSwipeLeft={handleOpenBinder}>
+        <div
+          className="binder closed"
+        />
+      </Swipeable>
     </div>
   );
 };
@@ -42,12 +45,18 @@ function OpenBinder({ view }: { view: BinderView }): React.ReactElement {
         <button onClick={() => view.addNewPage('lined')}>Add Lined Page</button>
       </div>
       <div className="binder open">
-        <div className="left">
-          <LeftPage page={view.leftPage} />
-        </div>
+        <Swipeable onSwipeRight={view.closeBinder}>
+          <div className="left">
+            <Swipeable onSwipeRight={view.previousPage}>
+              <LeftPage page={view.leftPage} />
+            </Swipeable>
+          </div>
+        </Swipeable>
         <div className="spine" />
         <div className="right">
-          <PageView page={view.page} updatePage={view.updatePage} />
+          <Swipeable onSwipeLeft={view.nextPage}>
+            <PageView page={view.page} updatePage={view.updatePage} />
+          </Swipeable>
         </div>
       </div>
     </div>

@@ -8,7 +8,7 @@
   display: flex;
 
   &.open {
-    &>.left {
+    & .left {
       position: relative;
       width: var(--binder-width);
 
@@ -19,13 +19,13 @@
       }
     }
 
-    &>.spine {
+    & .spine {
       border-inline: 2mm ridge var(--binder-border-color);
       box-sizing: border-box;
       width: var(--binder-spine-width);
     }
 
-    &>.right {
+    & .right {
       position: relative;
       width: var(--binder-width);
 
