@@ -60,6 +60,10 @@ function EditorPage({ page, updatePage }: EditorPageProps): React.ReactElement {
     save();
   };
 
+  function handlePaste(event: React.ClipboardEvent<HTMLTextAreaElement>): void {
+    event.preventDefault();
+  };
+
   return (
     <article className="paper a5 lined">
       <section>
@@ -71,6 +75,7 @@ function EditorPage({ page, updatePage }: EditorPageProps): React.ReactElement {
           onBlur={handleBlur}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
+          onPaste={handlePaste}
         />
       </section>
     </article>
