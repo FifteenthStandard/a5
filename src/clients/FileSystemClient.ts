@@ -131,11 +131,10 @@ async function* poll(): AsyncGenerator<NotesEvent> {
         break;
 
       case 'page': {
-        const page = note.value as Page;
         yield {
           id: crypto.randomUUID(),
           type: 'pageUpdated',
-          page,
+          page: note.value as Page,
         };
         break;
       }

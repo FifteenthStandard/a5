@@ -37,35 +37,40 @@ export default function createExternalPageSource(serviceName: string, client: No
   const subscribers = new SubscriberSet<NotesEvent>();
 
   (async function poll() {
-    for await (const event of client.poll()) {
-      switch (event.type) {
-        case 'pageUpdated':
-          const page = event.page;
-          setState({
-            notes: {
-              ...state.notes,
-              pages: {
-                ...state.notes.pages,
-                [page.id]: page,
+    try {
+      for await (const event of client.poll()) {
+        switch (event.type) {
+          case 'pageUpdated':
+            const page = event.page;
+            setState({
+              notes: {
+                ...state.notes,
+                pages: {
+                  ...state.notes.pages,
+                  [page.id]: page,
+                },
               },
-            },
-          });
-          break;
-
-        case 'indexUpdated':
-          const index = event.index;
-          setState({
-            notes: {
-              ...state.notes,
-              index,
-            },
-          });
-          break;
-      }
-
-      subscribers.notify(event);
-    };
-    setTimeout(poll, 5000);
+            });
+            break;
+  
+          case 'indexUpdated':
+            const index = event.index;
+            setState({
+              notes: {
+                ...state.notes,
+                index,
+              },
+            });
+            break;
+        }
+  
+        subscribers.notify(event);
+      };
+      setTimeout(poll, 5000);
+    } catch (error) {
+      console.error('Error polling for notes events:', error);
+      setTimeout(poll, 10000);
+    }
   }());
 
   function getSnapshot(): Notes {

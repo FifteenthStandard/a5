@@ -1,5 +1,6 @@
 import { BinderService } from './BinderService';
-import { FileSystemService } from './FileSystemService';
+// import { FileSystemService } from './FileSystemService';
+import { GoogleDriveService } from './GoogleDriveService';
 import StateService from './StateService';
 import type { NotesEvent } from '../Events';
 import SubscriberSet from '../SubscriberSet';
@@ -184,7 +185,7 @@ function handleRemoteNoteEvent(event: NotesEvent): void {
 };
 
 BinderService.subscribe(handleLocalNoteEvent);
-FileSystemService.subscribe(handleRemoteNoteEvent);
+GoogleDriveService.subscribe(handleRemoteNoteEvent);
 
 syncToLocalSubscribers.subscribe(BinderService.handleNotesEvent);
-syncToRemoteSubscribers.subscribe(FileSystemService.handleNotesEvent);
+syncToRemoteSubscribers.subscribe(GoogleDriveService.handleNotesEvent);
