@@ -203,6 +203,22 @@ async function getModifiedFiles(): Promise<FileMetadata[]> {
 };
 
 async function getAllFiles(): Promise<FileMetadata[]> {
+  const token = await getToken();
+
+  const query = `'${state.folder}' in parents and mimeType = 'text/plain'`;
+  const res = await fetch(
+    `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&fields=files(id,name,modifiedTime)`,
+    {
+      headers: { 'Authorization': `Bearer ${token}` },
+    }
+  );
+
+  if (!res.ok) throw new Error(`Drive API error: ${res.status}`);
+
+  const data = await res.json();
+  const files: FileMetadata[] = data.files;
+
+  return files;
 };
 
 type PageOrIndex = { type: 'page' | 'index'; value: Page | Index };
