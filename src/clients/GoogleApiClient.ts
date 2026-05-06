@@ -100,7 +100,7 @@ async function setState(newState: Partial<State>): Promise<void> {
   await StateService.setState('GoogleApiClient', state);
 };
 
-(async function initialize() {
+const initialized = (async function initialize() {
   const savedState = await StateService.getState<State>('GoogleApiClient');
   if (savedState) state = savedState;
 }());
@@ -184,6 +184,10 @@ type FileMetadata = {
 };
 
 async function getModifiedFiles(): Promise<FileMetadata[]> {
+  await initialized;
+
+  if (!state.folder) return [];
+
   const token = await getToken();
 
   const query = `'${state.folder}' in parents and modifiedTime > '${state.lastModified}' and mimeType = 'text/plain'`;
@@ -203,6 +207,10 @@ async function getModifiedFiles(): Promise<FileMetadata[]> {
 };
 
 async function getAllFiles(): Promise<FileMetadata[]> {
+  await initialized;
+
+  if (!state.folder) return [];
+
   const token = await getToken();
 
   const query = `'${state.folder}' in parents and mimeType = 'text/plain'`;
