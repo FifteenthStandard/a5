@@ -22,47 +22,34 @@ function ClosedBinder({ view }: { view: BinderView }): React.ReactElement {
   };
 
   return (
-    <div>
-      <div className="buttons">
-        <button onClick={handleOpenBinder}>Open Binder</button>
-      </div>
-      <Swipeable onSwipeLeft={handleOpenBinder}>
-        <div
-          className="binder closed"
-        />
-      </Swipeable>
-    </div>
+    <Swipeable onSwipeLeft={handleOpenBinder}>
+      <div
+        className="binder closed"
+      />
+    </Swipeable>
   );
 };
 
 function OpenBinder({ view }: { view: BinderView }): React.ReactElement {
   return (
-    <div>
-      <div className="buttons">
-        <button onClick={view.previousPage}>Previous</button>
-        <button onClick={view.nextPage}>Next</button>
-        <button onClick={view.toggleRings}>{view.ringsOpen ? 'Close Rings' : 'Open Rings'}</button>
-        <button onClick={() => view.addNewPage('lined')}>Add Lined Page</button>
-      </div>
-      <div className="binder open">
-        <div className="spine" />
-        <Swipeable onSwipeRight={view.closeBinder}>
-          <div className="left">
-            <Swipeable onSwipeRight={view.previousPage}>
-              <LeftPage page={view.leftPage} />
-            </Swipeable>
-          </div>
-        </Swipeable>
-        <div className="right">
-          <Swipeable onSwipeLeft={view.nextPage}>
-            <PageView page={view.page} updatePage={view.updatePage} />
+    <div className="binder open">
+      <div className="spine" />
+      <Swipeable onSwipeRight={view.closeBinder}>
+        <div className="left">
+          <Swipeable onSwipeRight={view.previousPage}>
+            <LeftPage page={view.leftPage} />
           </Swipeable>
         </div>
-        <div
-          className={`rings ${view.ringsOpen ? 'open' : 'closed'}`}
-          onClick={view.toggleRings}
-        />
+      </Swipeable>
+      <div className="right">
+        <Swipeable onSwipeLeft={view.nextPage}>
+          <PageView page={view.page} updatePage={view.updatePage} />
+        </Swipeable>
       </div>
+      <div
+        className={`rings ${view.ringsOpen ? 'open' : 'closed'}`}
+        onClick={view.toggleRings}
+      />
     </div>
   );
 };

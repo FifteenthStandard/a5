@@ -1,0 +1,19 @@
+.desk {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &.binder-closed {
+    zoom: 50%;
+  }
+
+  &.binder-open {
+    zoom: 75%;
+  }
+  
+  &.rings-open {
+    justify-content: space-around;
+  }
+}

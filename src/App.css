@@ -21,6 +21,8 @@
   width: var(--a5-width);
   height: var(--a5-height);
 
+  position: relative;
+
   &::before {
     content: '';
     position: absolute;

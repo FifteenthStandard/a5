@@ -1,6 +1,6 @@
 import './services/SyncService';
 
-import Binder from './components/Binder';
+import Desk from './components/Desk';
 import { BinderViewProvider } from './contexts/BinderViewContext';
 import './App.css'
 
@@ -8,7 +8,7 @@ export default function App(): React.ReactElement {
   return (
     <BinderViewProvider>
       <main className="app">
-        <Binder />
+        <Desk />
       </main>
     </BinderViewProvider>
   );

@@ -4,7 +4,7 @@ import './LinedPage.css';
 
 type BlankPageProps = {
   blank: true;
-  obverse: boolean;
+  obverse?: boolean;
 };
 type EditorPageProps = {
   blank?: false;
