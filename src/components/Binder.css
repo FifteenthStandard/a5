@@ -8,32 +8,91 @@
   display: flex;
 
   &.open {
-    & .left {
-      position: relative;
-      width: var(--binder-width);
+    position: relative;
+    width: calc(2 * var(--binder-width) + var(--binder-spine-width));
 
-      &>* {
+    & .spine {
+      position: absolute;
+      left: var(--binder-width);
+      height: 100%;
+      width: var(--binder-spine-width);
+
+      &::before {
+        content: '';
         position: absolute;
-        right: -10mm;
-        top: 10mm;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        border-radius: 7.5mm;
+        height: 220mm;
+        width: 15mm;
+        background-image: repeating-linear-gradient(
+          90deg,
+          #f0f0f0 0,
+          #404040 100%
+        );
       }
     }
 
-    & .spine {
-      border-inline: 2mm ridge var(--binder-border-color);
+    & .left {
+      position: absolute;
+      left: 0;
+      width: var(--binder-width);
+      height: 100%;
+      border-right: 2mm ridge var(--binder-border-color);
       box-sizing: border-box;
-      width: var(--binder-spine-width);
+
+      &>* {
+        position: absolute;
+        right: -12.5mm;
+        top: 10mm;
+      }
     }
 
     & .right {
-      position: relative;
+      position: absolute;
+      right: 0;
       width: var(--binder-width);
+      height: 100%;
+      border-left: 2mm ridge var(--binder-border-color);
+      box-sizing: border-box;
 
       &>* {
         position: absolute;
-        left: -10mm;
+        left: -12.5mm;
         top: 10mm;
       }
+    }
+
+    & .rings {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 25mm;
+      height: 100%;
+
+      &::before, &::after {
+        content: '';
+        position: absolute;
+        margin-top: 15mm;
+
+        width: 9mm;
+        height: 200mm;
+        background-image: repeating-linear-gradient(
+          180deg,
+          transparent 0mm,
+          transparent 4mm,
+          #f0f0f0 4mm,
+          #404040 6mm,
+          transparent 6mm,
+          transparent 10mm
+        );
+      }
+
+      &::before { margin-left: 3.5mm; }
+      &.open::before { margin-left: 2.5mm; }
+      &::after { margin-left: 12.5mm; }
+      &.open::after { margin-left: 13.5mm; }
     }
   }
 

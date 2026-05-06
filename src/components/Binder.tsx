@@ -45,6 +45,7 @@ function OpenBinder({ view }: { view: BinderView }): React.ReactElement {
         <button onClick={() => view.addNewPage('lined')}>Add Lined Page</button>
       </div>
       <div className="binder open">
+        <div className="spine" />
         <Swipeable onSwipeRight={view.closeBinder}>
           <div className="left">
             <Swipeable onSwipeRight={view.previousPage}>
@@ -52,12 +53,15 @@ function OpenBinder({ view }: { view: BinderView }): React.ReactElement {
             </Swipeable>
           </div>
         </Swipeable>
-        <div className="spine" />
         <div className="right">
           <Swipeable onSwipeLeft={view.nextPage}>
             <PageView page={view.page} updatePage={view.updatePage} />
           </Swipeable>
         </div>
+        <div
+          className={`rings ${view.ringsOpen ? 'open' : 'closed'}`}
+          onClick={view.toggleRings}
+        />
       </div>
     </div>
   );
