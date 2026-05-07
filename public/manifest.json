@@ -1,13 +1,13 @@
 {
   "name": "A5",
   "short_name": "A5",
-  "start_url": "/",
+  "start_url": "/a5/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#306030",
   "icons": [
     {
-      "src": "/favicon.png",
+      "src": "/a5/favicon.png",
       "sizes": "any",
       "type": "image/png"
     }
