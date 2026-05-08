@@ -6,12 +6,15 @@ export interface BinderView {
   ringsOpen: boolean;
   page: Page | null;
   leftPage: Page | null;
+  detatchedPages: Page[];
   closeBinder(): void;
   previousPage(): void;
   nextPage(): void;
   toggleRings(): void;
   addNewPage(type: PageType): void;
   updatePage(content: string): void;
+  detatch(): void;
+  insertPage(pageId: string): void;
 };
 
 export interface NotesClient {

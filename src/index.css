@@ -6,6 +6,13 @@
   --binder-width: 158mm;
   --binder-spine-width: 25mm;
 
+  --workspace-height: 210mm;
+  --workspace-width: 148mm;
+
+  --mat-width: 450mm;
+  --mat-height: 300mm;
+  --mat-border-width: 5mm;
+
   --border-thickness: 0.5mm;
 
   --binder-color: #306030;
@@ -17,6 +24,11 @@
   --pen-color: #1a1a1b;
   --pen-font: 'Monaco', monospace;
   --pen-weight: 500;
+
+  --desk-color: #a97343;
+
+  --mat-color: #2d2d2d;
+  --mat-border-color: #161616;
 }
 
 html, body, #root {

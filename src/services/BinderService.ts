@@ -112,10 +112,27 @@ function updatePage(pageId: string, content: string): void {
   });
 };
 
+function movePage(pageId: string, beforePageId: string): void {
+  const without = state.index.filter(id => id !== pageId);
+  const targetIndex = without.findIndex(id => id === beforePageId);
+  const index = [
+    ...without.slice(0, targetIndex),
+    pageId,
+    ...without.slice(targetIndex),
+  ];
+  state = { ...state, index };
+  subscribers.notify({
+    id: crypto.randomUUID(),
+    type: 'indexUpdated',
+    index,
+  });
+};
+
 export const BinderService = {
   getSnapshot,
   subscribe,
   handleNotesEvent,
   addNewPageBefore,
   updatePage,
+  movePage,
 };

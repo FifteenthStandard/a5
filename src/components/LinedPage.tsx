@@ -6,24 +6,42 @@ type BlankPageProps = {
   blank: true;
   obverse?: boolean;
 };
+type ReadonlyPageProps = {
+  blank?: false;
+  readonly: true;
+  page: Page;
+};
 type EditorPageProps = {
   blank?: false;
+  readonly?: false;
   page: Page;
   updatePage: (content: string) => void;
 };
 
-type LinedPageProps = BlankPageProps | EditorPageProps;
+type LinedPageProps = BlankPageProps | ReadonlyPageProps | EditorPageProps;
 
 export default function LinedPage(props: LinedPageProps): React.ReactElement {
   return props.blank
     ? <BlankPage {...props} />
-    : <EditorPage {...props} />;
+    : props.readonly
+      ? <ReadonlyPage {...props} />
+      : <EditorPage {...props} />;
 }
 
 function BlankPage({ obverse }: BlankPageProps): React.ReactElement {
   return (
     <article className={`paper a5 lined ${obverse ? ' obverse' : ''}`}>
       <section />
+    </article>
+  );
+};
+
+function ReadonlyPage({ page }: ReadonlyPageProps): React.ReactElement {
+  return (
+    <article className="paper a5 lined">
+      <section>
+        <pre className="existing-content">{page.content}</pre>
+      </section>
     </article>
   );
 };

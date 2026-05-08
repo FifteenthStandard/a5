@@ -31,6 +31,12 @@ function ClosedBinder({ view }: { view: BinderView }): React.ReactElement {
 };
 
 function OpenBinder({ view }: { view: BinderView }): React.ReactElement {
+  function handleDragStart(event: React.DragEvent<HTMLDivElement>): void {
+    event.dataTransfer.setData('dragType', 'binder');
+  };
+
+  const dragAttrs = view.ringsOpen ? { draggable: true, onDragStart: handleDragStart } : {};
+
   return (
     <div className="binder open">
       <div className="spine" />
@@ -43,7 +49,9 @@ function OpenBinder({ view }: { view: BinderView }): React.ReactElement {
       </Swipeable>
       <div className="right">
         <Swipeable onSwipeLeft={view.nextPage}>
-          <PageView page={view.page} updatePage={view.updatePage} />
+          <div {...dragAttrs}>
+            <PageView page={view.page} updatePage={view.updatePage} />
+          </div>
         </Swipeable>
       </div>
       <div

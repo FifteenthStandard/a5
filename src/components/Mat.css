@@ -1,0 +1,12 @@
+.mat {
+  height: var(--mat-height);
+  width: var(--mat-width);
+  background-color: var(--mat-color);
+  border: var(--mat-border-width) solid var(--mat-border-color);
+  border-radius: calc(var(--mat-border-width) * 4);
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}

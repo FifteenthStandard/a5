@@ -1,3 +1,7 @@
+:root {
+  --page-offset: -12.5mm;
+}
+
 .binder {
   height: var(--binder-height);
   background-color: var(--binder-color);
@@ -10,6 +14,7 @@
   &.open {
     position: relative;
     width: calc(2 * var(--binder-width) + var(--binder-spine-width));
+    margin-left: calc(-1 * var(--binder-width) - var(--binder-spine-width) + 12.5mm);
 
     & .spine {
       position: absolute;
