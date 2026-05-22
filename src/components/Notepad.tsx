@@ -3,9 +3,23 @@ import { useSwipe, type SwipeDirection } from './useSwipe';
 import './Notepad.css';
 
 export default function Notepad(): React.ReactElement {
-  const [ notes, setNotes ] = useState<string[]>(['','','','','','','','','','']);
+  const [ notes, setNotes ] = useState<string[]>([]);
   const [ index, setIndex ] = useState<number>(0);
   const [ animating, setAnimating ] = useState<boolean>(false);
+
+  useEffect(() => {
+    const storedNotes = localStorage.getItem('a5:notes');
+    if (storedNotes) {
+      setNotes(JSON.parse(storedNotes));
+    } else {
+      setNotes([ '', '', '', '', '', '', '', '', '', '' ]);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (notes.length === 0) return;
+    localStorage.setItem('a5:notes', JSON.stringify(notes));
+  }, [ notes ]);
 
   useEffect(() => {
     if (animating) setTimeout(() => setAnimating(false), 500);
