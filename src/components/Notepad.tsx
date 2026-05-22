@@ -29,7 +29,8 @@ export default function Notepad(): React.ReactElement {
     <FrontCover key="front-cover" />,
     ...notes.map((note, i) => (
       <NotePage
-        key={`note-${i}`}
+        key={`note-${i+1}`}
+        id={`note-${i+1}`}
         note={note}
         saveNote={(note: string) => {
           const newNotes = [...notes];
@@ -57,6 +58,10 @@ export default function Notepad(): React.ReactElement {
     flipToPage((index - 1 + pages.length) % pages.length);
   };
 
+  function handleClick(): void {
+    document.getElementById(`note-${index}`)?.focus();
+  };
+
   function handleSwipe(direction: SwipeDirection): void {
     switch (direction) {
       case 'up':
@@ -73,13 +78,14 @@ export default function Notepad(): React.ReactElement {
   return (
     <div
       className="notepad"
+      onClick={handleClick}
       {...useSwipe(handleSwipe)}
     >
     {
       pages.map((page, i) => (
         <PageWrapper
           key={`page-${i}`}
-          position={(index - i + 12 - 1) % 12}
+          position={(index - 1 - i + 12) % 12}
         >
           {page}
         </PageWrapper>
@@ -91,14 +97,14 @@ export default function Notepad(): React.ReactElement {
 
 function PageWrapper({ children, position }: { children: React.ReactNode, position: number }): React.ReactElement {
   const [ previousPosition, setPreviousPosition ] = useState<number>(position);
-  const [ style, setStyle ] = useState<{}>({ transform: `translateZ(${position}mm) rotateX(0deg)` });
+  const [ style, setStyle ] = useState<{}>({ transform: `translateZ(${position*2}mm) rotateX(0deg)` });
 
   useEffect(() => {
     if (position === previousPosition) return;
     if (position === 0 && previousPosition !== 1) {
       setTimeout(() => {
         setStyle({
-          transform: `translateZ(${position}mm) rotateX(360deg)`,
+          transform: `translateZ(${position*2}mm) rotateX(360deg)`,
           transformOrigin: '0 -2.5mm',
           transition: 'transform 0.5s ease-in-out 0s',
         });
@@ -106,21 +112,21 @@ function PageWrapper({ children, position }: { children: React.ReactNode, positi
     } else if (previousPosition === 0 && position !== 1) {
       setTimeout(() => {
         setStyle({
-          transform: `translateZ(${position}mm) rotateX(-360deg)`,
+          transform: `translateZ(${position*2}mm) rotateX(-360deg)`,
           transformOrigin: '0 -2.5mm',
           transition: 'transform 0.5s ease-in-out 0s',
         });
       }, 0);
     } else {
       setTimeout(() => {
-        setStyle({ transform: `translateZ(${position}mm) rotateX(0deg)` });
+        setStyle({ transform: `translateZ(${position*2}mm) rotateX(0deg)` });
       }, 450);
     }
     setPreviousPosition(position);
   }, [ position ]);
 
   function handleTransitionEnd(): void {
-    setStyle({ transform: `translateZ(${position}mm) rotateX(0deg)` });
+    setStyle({ transform: `translateZ(${position*2}mm) rotateX(0deg)` });
   };
 
   return (
@@ -143,7 +149,7 @@ function FrontCover(): React.ReactElement {
   );
 };
 
-function NotePage({ note, saveNote }: { note: string, saveNote: (note: string) => void }): React.ReactElement {
+function NotePage({ id, note, saveNote }: { id: string, note: string, saveNote: (note: string) => void }): React.ReactElement {
   function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>): void {
     saveNote(event.target.value);
   };
@@ -153,6 +159,7 @@ function NotePage({ note, saveNote }: { note: string, saveNote: (note: string) =
       <article className="page-side front">
         <section>
           <textarea
+            id={id}
             className="pen"
             value={note}
             onChange={handleChange}

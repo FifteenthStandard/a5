@@ -1,6 +1,7 @@
 :root {
   --back-cover-color: #d6b78f;
   --back-cover-border-color: #cdb394;
+  --cover-margin: 1mm;
   --front-cover-color: #252527;
   --front-cover-border-color: #17171C;
   --line-height: 8mm;
@@ -13,6 +14,8 @@
   box-shadow: 0mm 2.5mm 5mm rgba(0, 0, 0, 0.75);
   height: var(--page-height);
   position: relative;
+  transform: rotateX(10deg);
+  transform-style: preserve-3d;
   width: var(--page-width);
 
   .page-wrapper {
@@ -20,7 +23,19 @@
     left: 0;
     position: absolute;
     top: 0;
+    transform-style: preserve-3d;
     width: 100%;
+  }
+
+  .front-cover, .back-cover {
+    height: calc(var(--page-height) + var(--cover-margin) * 2);
+    width: calc(var(--page-width) + var(--cover-margin) * 2);
+    margin-left: calc(-1 * var(--cover-margin));
+  }
+
+  .note-page {
+    height: var(--page-height);
+    width: var(--page-width);
   }
 
   .front-cover .page-side {
@@ -65,9 +80,9 @@
   }
 
   .page {
-    height: var(--page-height);
+    box-shadow: 0mm 0mm 1mm rgba(0, 0, 0, 0.25);
     position: relative;
-    width: var(--page-width);
+    transform-style: preserve-3d;
 
     .page-side {
       backface-visibility: hidden;
