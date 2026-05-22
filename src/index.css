@@ -1,0 +1,36 @@
+:root {
+  --background-color: #fafbfb;
+  --line-color: #d9d9d9;
+  --line-width: 0.5mm;
+  --paper-color: #f0f0f0;
+  --paper-border-color: #e7e7e7;
+  --paper-border-width: 1mm;
+  --pen-color: #020202;
+  --pen-font: 'Inconsolata', monospace;
+}
+
+@font-face { font-family: 'Inconsolata'; src: url('./assets/Inconsolata.woff') format('woff'); }
+
+@media (max-width: 500px) {
+  html {
+    zoom: 80%;
+  }
+}
+
+html, body, #root {
+  align-items: center;
+  background-color: var(--background-color);
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  touch-action: none;
+}
+
+.pen {
+  color: var(--pen-color);
+  font-family: var(--pen-font);
+  font-weight: 400;
+  text-shadow: 0mm 0mm 0.5mm rgba(0, 0, 0, 0.25);
+}
