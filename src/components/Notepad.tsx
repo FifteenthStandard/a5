@@ -164,6 +164,7 @@ function NotePage({ id, note, saveNote }: { id: string, note: string, saveNote: 
             value={note}
             onChange={handleChange}
             autoCorrect="off"
+            spellCheck="false"
           />
         </section>
       </article>
