@@ -163,6 +163,7 @@ function NotePage({ id, note, saveNote }: { id: string, note: string, saveNote: 
             className="pen"
             value={note}
             onChange={handleChange}
+            autoCorrect="off"
           />
         </section>
       </article>
