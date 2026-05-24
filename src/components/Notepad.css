@@ -1,16 +1,17 @@
-:root {
-  --back-cover-color: #d6b78f;
-  --back-cover-border-color: #cdb394;
+.notepad {
+  --back-cover-border-color: #8e6e4b;
+  --back-cover-color: #cbb491;
   --cover-margin: 1mm;
-  --front-cover-color: #252527;
-  --front-cover-border-color: #17171C;
+  --front-cover-border-color: #a53e14;
+  --front-cover-color: #d86432;
+  --front-cover-color-light: #ee8e62;
+  --line-color: #d9d9d9;
   --line-height: 6mm;
   --page-height: 105mm;
-  --page-padding: 9mm 4mm 4mm 4mm;
+  --page-padding: 9.5mm 4mm 4mm 4mm;
   --page-width: 74mm;
-}
+  --paper-border-width: 0.5mm;
 
-.notepad {
   box-shadow: 0mm 2.5mm 5mm rgba(0, 0, 0, 0.75);
   height: var(--page-height);
   position: relative;
@@ -19,18 +20,18 @@
   width: var(--page-width);
 
   .page-wrapper {
-    height: 100%;
+    height: fit-content;
     left: 0;
     position: absolute;
     top: 0;
     transform-style: preserve-3d;
-    width: 100%;
+    width: fit-content;
   }
 
   .front-cover, .back-cover {
-    height: calc(var(--page-height) + var(--cover-margin) * 2);
+    height: calc(var(--page-height) + var(--cover-margin));
+    margin-inline: calc(-1 * var(--cover-margin));
     width: calc(var(--page-width) + var(--cover-margin) * 2);
-    margin-left: calc(-1 * var(--cover-margin));
   }
 
   .note-page {
@@ -39,23 +40,25 @@
   }
 
   .front-cover .page-side {
-    background-color: var(--front-cover-color);
+    background-image: linear-gradient(
+      -30deg,
+      var(--front-cover-color),
+      var(--front-cover-color-light)
+    );
     border-color: var(--front-cover-border-color);
   }
-  
+
   .back-cover .page-side {
     background-color: var(--back-cover-color);
     border-color: var(--back-cover-border-color);
   }
 
-  .note-page .page-side{
+  .note-page .page-side {
     background-color: var(--paper-color);
     border-color: var(--paper-border-color);
 
-    section {
-      height: 100%;
-      width: 100%;
-
+    textarea {
+      background-color: inherit;
       background-image: repeating-linear-gradient(
         180deg,
         var(--line-color) 0mm,
@@ -63,19 +66,15 @@
         transparent var(--line-width),
         transparent var(--line-height)
       );
-
-      textarea {
-        background-color: inherit;
-        border: inherit;
-        box-sizing: border-box;
-        font-size: calc(var(--line-height) * 0.8);
-        height: 100%;
-        line-height: var(--line-height);
-        outline: inherit;
-        overflow: clip;
-        resize: none;
-        width: 100%;
-      }
+      border: none;
+      box-sizing: border-box;
+      font-size: calc(var(--line-height) * 0.8);
+      height: 100%;
+      line-height: var(--line-height);
+      outline: none;
+      overflow: clip;
+      resize: none;
+      width: 100%;
     }
   }
 
@@ -86,9 +85,9 @@
 
     .page-side {
       backface-visibility: hidden;
+      border-radius: var(--paper-border-width);
       border-style: solid;
       border-width: var(--paper-border-width);
-      border-radius: var(--paper-border-width);
       box-sizing: border-box;
       height: 100%;
       left: 0;

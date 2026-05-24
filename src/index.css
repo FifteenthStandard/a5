@@ -1,21 +1,13 @@
 :root {
   --background-color: #fafbfb;
-  --line-color: #d9d9d9;
   --line-width: 0.5mm;
   --paper-color: #f0f0f0;
-  --paper-border-color: #e7e7e7;
-  --paper-border-width: 1mm;
+  --paper-border-color: #d9d9d9;
   --pen-color: #020202;
   --pen-font: 'Inconsolata', monospace;
 }
 
 @font-face { font-family: 'Inconsolata'; src: url('./assets/Inconsolata.woff') format('woff'); }
-
-@media (max-width: 500px) {
-  html {
-    zoom: 125%;
-  }
-}
 
 html, body, #root {
   align-items: center;

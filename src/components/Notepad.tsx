@@ -97,45 +97,55 @@ export default function Notepad(): React.ReactElement {
 
 function PageWrapper({ children, position }: { children: React.ReactNode, position: number }): React.ReactElement {
   const [ previousPosition, setPreviousPosition ] = useState<number>(position);
-  const [ style, setStyle ] = useState<{}>({ transform: `translateZ(${position*2}mm) rotateX(0deg)` });
+  const [ translateZ, setTranslateZ ] = useState<{}>({ transform: `translateZ(${position*2}mm)` });
+  const [ rotateX, setRotateX ] = useState<{}>({ transform: `rotateX(0deg)` });
 
   useEffect(() => {
     if (position === previousPosition) return;
+    let newRotateX;
     if (position === 0 && previousPosition !== 1) {
-      setTimeout(() => {
-        setStyle({
-          transform: `translateZ(${position*2}mm) rotateX(360deg)`,
-          transformOrigin: '0 -2.5mm',
-          transition: 'transform 0.5s ease-in-out 0s',
-        });
-      }, 0);
+      newRotateX = {
+        transform: `rotateX(360deg)`,
+        transformOrigin: '0 -2.5mm',
+        transition: 'transform 0.5s ease-in-out 0s',
+      };
     } else if (previousPosition === 0 && position !== 1) {
-      setTimeout(() => {
-        setStyle({
-          transform: `translateZ(${position*2}mm) rotateX(-360deg)`,
-          transformOrigin: '0 -2.5mm',
-          transition: 'transform 0.5s ease-in-out 0s',
-        });
-      }, 0);
+      newRotateX = {
+        transform: `rotateX(-360deg)`,
+        transformOrigin: '0 -2.5mm',
+        transition: 'transform 0.5s ease-in-out 0s',
+      };
     } else {
-      setTimeout(() => {
-        setStyle({ transform: `translateZ(${position*2}mm) rotateX(0deg)` });
-      }, 450);
+      newRotateX = { transform: `rotateX(0deg)` };
     }
+    setTimeout(() => {
+      setTranslateZ({
+        transform: `translateZ(${position*2}mm)`,
+        transformOrigin: '0 -2.5mm',
+        transition: 'transform 0.25s ease-in-out 0.125s',
+      });
+      setRotateX(newRotateX);
+    }, 0);
     setPreviousPosition(position);
   }, [ position ]);
 
   function handleTransitionEnd(): void {
-    setStyle({ transform: `translateZ(${position*2}mm) rotateX(0deg)` });
+    setTranslateZ({ transform: `translateZ(${position*2}mm)` });
+    setRotateX({ transform: `rotateX(0deg)` });
   };
 
   return (
     <div
       className="page-wrapper"
-      style={style}
-      onTransitionEnd={handleTransitionEnd}
+      style={translateZ}
     >
-      {children}
+      <div
+        className="page-wrapper"
+        style={rotateX}
+        onTransitionEnd={handleTransitionEnd}
+      >
+        {children}
+      </div>
     </div>
   );
 };
@@ -157,19 +167,17 @@ function NotePage({ id, note, saveNote }: { id: string, note: string, saveNote: 
   return (
     <div className="page note-page">
       <article className="page-side front">
-        <section>
-          <textarea
-            id={id}
-            className="pen"
-            value={note}
-            onChange={handleChange}
-            autoCorrect="off"
-            spellCheck="false"
-          />
-        </section>
+        <textarea
+          id={id}
+          className="pen"
+          value={note}
+          onChange={handleChange}
+          autoCorrect="off"
+          spellCheck="false"
+        />
       </article>
       <div className="page-side back">
-        <section />
+        <textarea disabled />
       </div>
     </div>
   );
