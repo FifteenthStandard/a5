@@ -1,8 +1,12 @@
 :root {
+  --a5-page-height: 210mm;
+  --a5-page-width: 148mm;
   --background-color: #fafbfb;
   --line-width: 0.5mm;
-  --paper-color: #f0f0f0;
   --paper-border-color: #d9d9d9;
+  --paper-border-width: 1mm;
+  --paper-color: #f0f0f0;
+  --paper-hole-offset: 10mm;
   --pen-color: #020202;
   --pen-font: 'Inconsolata', monospace;
 }
@@ -18,6 +22,7 @@ html, body, #root {
   margin: 0;
   padding: 0;
   touch-action: none;
+  width: 100%;
 }
 
 .pen {

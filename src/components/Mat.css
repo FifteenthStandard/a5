@@ -1,0 +1,20 @@
+.mat {
+  --mat-color: #969696;
+  --mat-border-color: #818181;
+  --mat-border-width: 5mm;
+  --mat-height: 270mm;
+  --mat-width: 450mm;
+
+  background-color: var(--mat-color);
+  border-color: var(--mat-border-color);
+  border-radius: calc(2 * var(--mat-border-width));
+  border-style: solid;
+  border-width: var(--mat-border-width);
+  box-sizing: border-box;
+  height: var(--mat-height);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--mat-width);
+}

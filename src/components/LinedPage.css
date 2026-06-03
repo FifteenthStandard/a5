@@ -1,0 +1,48 @@
+.binder-page {
+  --line-color: #d9d9d9;
+  --line-height: 6mm;
+  --page-padding: 7.5mm 5mm 7.5mm 13mm;
+
+  height: var(--a5-page-height);
+  position: absolute;
+  transform-style: preserve-3d;
+  width: var(--a5-page-width);
+
+  .page-side {
+    backface-visibility: hidden;
+    background-color: var(--paper-color);
+    border-color: var(--paper-border-color);
+    border-radius: var(--paper-border-width);
+    border-style: solid;
+    border-width: var(--paper-border-width);
+    box-sizing: border-box;
+    height: 100%;
+    padding: var(--page-padding);
+    position: absolute;
+    width: 100%;
+
+    &.back {
+      transform: rotateY(180deg) scaleX(-1);
+    }
+
+    textarea {
+      background-color: inherit;
+      background-image: repeating-linear-gradient(
+        180deg,
+        var(--line-color) 0mm,
+        var(--line-color) var(--line-width),
+        transparent var(--line-width),
+        transparent var(--line-height)
+      );
+      border: none;
+      box-sizing: border-box;
+      font-size: calc(var(--line-height) * 0.8);
+      height: 100%;
+      line-height: var(--line-height);
+      outline: none;
+      overflow: clip;
+      resize: none;
+      width: 100%;
+    }
+  }
+}

@@ -45,9 +45,9 @@ export function useScreenSize(): ScreenSize {
   }, [ dimensions ]);
 
   const zoom = useMemo(() => {
-    return type === 'desktop' || orientation === 'landscape'
-      ? 1
-      : Math.min(dimensions.width / (74 * mmToPx) * 0.9, dimensions.height / (105 * mmToPx) * 0.9);
+    return type === 'desktop'
+      ? Math.min(dimensions.width / (450 * mmToPx) * 0.9, dimensions.height / (270 * mmToPx) * 0.95)
+      : Math.min(dimensions.width / (74 * mmToPx) * 0.9, dimensions.height / (105 * mmToPx) * 0.95);
   }, [ dimensions ]);
 
   return {

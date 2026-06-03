@@ -2,9 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100dvh;
-  width: 100%;
-
-  perspective: 80cm;
+  height: 100%;
+  overflow: clip;
+  perspective: 100cm;
   transform-style: preserve-3d;
+  width: 100%;
 }
